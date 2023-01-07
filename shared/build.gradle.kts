@@ -29,6 +29,7 @@ kotlin {
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
+                implementation("ru.kontur.mobile.visualfsm:visualfsm-tools:${DV.visualfsm}")
             }
         }
         val androidMain by getting

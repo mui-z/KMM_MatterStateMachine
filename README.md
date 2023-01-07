@@ -1,6 +1,6 @@
 # MatterStateMachine
 
-The simple matter state machine.
+The simple matter state machine.  
 Made with KMM and [VisualFSM](https://github.com/Kontur-Mobile/VisualFSM).
 
 ## Demo
