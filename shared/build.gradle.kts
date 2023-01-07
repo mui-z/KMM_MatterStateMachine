@@ -1,15 +1,12 @@
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
-    id("com.google.devtools.ksp") version "1.7.20-1.0.7"
+    id("com.google.devtools.ksp") version DV.ksp
 }
-
-val visualfsmVersion = "1.2.1"
-
 
 kotlin {
     android()
-    
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -23,15 +20,10 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                // Base classes for Android, JVM and KMM projects (Feature and AsyncWorker coroutines edition)
-                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
-                implementation("ru.kontur.mobile.visualfsm:visualfsm-core:$visualfsmVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:${DV.coroutines}")
+                implementation("ru.kontur.mobile.visualfsm:visualfsm-core:${DV.visualfsm}")
 
-                // Add generated code to source code directories
                 kotlin.srcDir("${buildDir.absolutePath}/generated/ksp/")
-//
-//                // Optional - Graph creation and analysis
-//                implementation("ru.kontur.mobile.visualfsm:visualfsm-tools:$visualfsmVersion")
             }
         }
         val commonTest by getting {
@@ -62,15 +54,16 @@ kotlin {
     }
 }
 
-android {
-    namespace = "studio.sekai.matterstatemachine"
-    compileSdk = 32
-    defaultConfig {
-        minSdk = 30
-        targetSdk = 32
-    }
+dependencies {
+    add("kspAndroid", "ru.kontur.mobile.visualfsm:visualfsm-compiler:${DV.visualfsm}")
 }
 
-dependencies {
-    add("kspAndroid", "ru.kontur.mobile.visualfsm:visualfsm-compiler:$visualfsmVersion")
+android {
+    compileSdk = 33
+    sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
+    defaultConfig {
+        minSdk = 23
+        targetSdk = 33
+    }
+    namespace = "studio.sekai.matterstatemachine"
 }
